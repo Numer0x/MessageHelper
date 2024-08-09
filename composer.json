@@ -1,0 +1,32 @@
+{
+    "name": "zacz/message-helper",
+    "description": "message helper",
+    "type": "library",
+    "require": {
+        "php": "7.0"
+    },
+    "license": "Apache",
+    "autoload": {
+        "psr-4": {
+            "Zacz\\MessageHelper\\": "src"
+        }
+    },
+    "authors": [
+        {
+            "name": "zac",
+            "email": "sasha082700@icloud.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Zacz\\MessageHelper\\MessageHelperServiceProvider"
+            ],
+            "aliases": {
+
+                "MessageHelper": "Zzac\\MessageHelper\\Facade\\MessageHelper"
+            }
+        }
+    }
+}
