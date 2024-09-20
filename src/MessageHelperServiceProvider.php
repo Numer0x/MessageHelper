@@ -16,7 +16,7 @@ class MessageHelperServiceProvider extends \Illuminate\Support\ServiceProvider
 
     public function register()
     {
-        $this->app->singleton(MessageHelper::class, function ($app) {
+        $this->app->singleton('MessageHelper', function ($app) {
             return new MessageHelper($app['config']);
         });
     }

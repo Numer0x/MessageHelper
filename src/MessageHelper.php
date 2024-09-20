@@ -2,8 +2,6 @@
 
 namespace Zacz\MessageHelper;
 
-use http\Client\Curl\User;
-use Illuminate\Config\Repository;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Config;
 
@@ -12,43 +10,15 @@ class MessageHelper
 
     protected mixed $config;
 
-    protected $services;
-
-    protected string $url = 'http://sms.qxcioud.com:9090/sms/batch/v1';
-
-    public function __construct(Application $config, $services = 'example')
+    public function __construct(Application $config)
     {
-        $this->config = $config->configPath($services);
-        $this->services = $services;
+        $this->config = $config;
     }
 
-    public function send($phone, $content)
+    public function generate($provider = 'Qixunyun', $services = 'example', $url = 'http://sms.qxcioud.com:9090/sms/batch/v1')
     {
+        return new $provider . 'MessageHelper'($this->config, $services, $url);
 
-        $client = new \GuzzleHttp\Client(['timeout' => 600.0]);
-        $parms = [
-            'appkey' => $this->config['appKey'],
-            'appcode' => $this->config['appCode'],
-            'sign' => md5($this->config['appKey'] . $this->config['appSecret'] . \Carbon\Carbon::now()->getTimestamp() . '000'),
-            'phone' => $phone,
-            'msg' => '【' . $this->services . '】' . $content,
-            'timestamp' => \Carbon\Carbon::now()->getTimestamp() . '000'
-        ];
-        $response = $client->request(
-            'POST',
-            $this->url,
-            [
-                'headers' => [
-                    'Content-Type' => 'application/json',
-                ],
-                'json' => $parms
-            ]);
-
-        $body = $response->getBody();
-        $stringBody = (string)$body;
-        $res = json_decode($stringBody, true);
-        return $res;
     }
-
 
 }
